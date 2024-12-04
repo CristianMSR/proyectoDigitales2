@@ -32,6 +32,16 @@ int main (int argc, char *argv[]) {
 
     printf("\nSecuencia seleccionada: %s\n", title[op-1]);
 
+  //switch(op):
+  //case 1:
+  //case 2:
+  //case 3:
+  //case 4:
+  //case 5:
+  //case 6:
+  //case 7:
+  //default:
+
 	return 0;
 }
 
