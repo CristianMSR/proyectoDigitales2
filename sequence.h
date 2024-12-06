@@ -35,7 +35,7 @@ void digitalWriteAll(int value){
 	}
 }
 void digitalPrintAll(int value){
-	for(int i=0; i<8; i++){
+	for(int i=0; i<8; i++){	
 		if ((value >> i) & 1) {
             printf("*");
         } else {
@@ -45,51 +45,52 @@ void digitalPrintAll(int value){
     printf("\n");
 }
 
-void fantasticar(int time){
+void fantasticar(int tiempo){	
 	for(int i=0; i<7; i++){
 		digitalWriteAll(0x80 >> i);
-		delay(time);
+		delayMillis(tiempo);
 	}	
 	for(int i=0;i<7; i++){
 		digitalWriteAll(0x01 << i);
-		delay(time);
+		delayMillis(tiempo);
 	}
 }
  
-void choque(int time){
+void choque(int tiempo){
 	for(int i=0; i<4; i++){
 		digitalWriteAll((0x80 >> i) | (0x1 << i));
-		delay(time);
+		delayMillis(tiempo);
 	}
 	for(int i=5; i<8; i++){
 		digitalWriteAll((0x80 >> i) | (0x1 << i));
-		delay(time);
+		delayMillis(tiempo);
 	}
 }
 
-void apilada(int time){
+void apilada(int tiempo){
 	for(int i=0; i<8; i++){
 		for(int j=0; j<(8-i); j++){
 			digitalWriteAll((0x80 >> j)|((1<<i)-1));
-			delay(time);
+			delayMillis(tiempo);
 		}
 		digitalWrite(leds[0+i],0);
-		delay(time);
+		delayMillis(tiempo);
 		digitalWrite(leds[0+i],1);
-		delay(time);
+		delayMillis(tiempo);
 	}
 }
  
-void theRace(int time){
+void theRace(int tiempo){
 	for(int i=0; i<16; i++){
 		digitalWriteAll(race[i]);
-		delay(time);
+		delayMillis(tiempo);
 	}
 }
 	
-void rusky(int time){
+void rusky(int tiempo){
 	srand(time(NULL));
 	digitalWriteAll(0xFF); //prendemos todos los leds
+	delayMillis(tiempo);
 	int control[8]={1,1,1,1,1,1,1,1};
 	int contador = 0;
 	
@@ -102,31 +103,32 @@ void rusky(int time){
 			contador ++;
 		}
 		
+		delayMillis(tiempo);
 		if(contador == 8)
 		   break;
 		
-		delay(500);
 	}
 }
 
-void jumpy(int time){
+void jumpy(int tiempo){
 	for(int i=0; i<14; i++){
 		digitalWriteAll(jump[i]);
-		delay(time);
+		delayMillis(tiempo);
 	}
 }
 
-void alternate(int time){
-	for(int i=0; i<1; i++){
+void alternate(int tiempo){
+	for(int i=0; i<2; i++){
 		digitalWriteAll(alt[i]);
-		delay(time);
+		delayMillis(tiempo);
 	}
 }
 
-void binary(int time){
+void binary(int tiempo){
 	for(int i=0; i<255; i++){
 		digitalWriteAll(i);
-		delay(time);
+		delayMillis(tiempo);
+	}
 }
 
 
