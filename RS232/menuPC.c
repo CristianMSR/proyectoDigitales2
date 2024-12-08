@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "termset.h"
@@ -9,6 +10,8 @@
 int main() {
     const char *raspi = "/dev/ttyUSB0"; //cambiar esto cuando lo implementemos en la raspi
     int fd;
+    char initialSpeed;  //char para seleccionar entre 0 y 255
+    char menuSelect;    // selecciona la velocidad y la secuencia
 
     fd = open(raspi, O_RDWR | O_NOCTTY | O_SYNC);
     if (fd < 0) {
@@ -23,26 +26,34 @@ int main() {
         return EXIT_FAILURE;
     }
 
+    char buffer[100];       //para recepcion
+    char mensaje[100] = ""; //para transmision
 
-    // Enviar datos
-    const char *mensaje = "Hola Raspberry Pi!\n";
-    write(fd, mensaje, sizeof(mensaje));
-    
+    while(1){ //bucle de comunicación
+        while(1){
+            // Recibir datos de la raspi
+            int bytes_leidos = read(fd, buffer, sizeof(buffer) - 1);
+            if (bytes_leidos > 0) {
+                buffer[bytes_leidos] = '\0'; // Fin de cadena
+                printf("%s\n", buffer);
+                break;
+            }
+        }
 
-    // Recibir datos
-    char buffer[100];
-    int bytes_leidos = read(fd, buffer, sizeof(buffer) - 1);
-    if (bytes_leidos > 0) {
-        buffer[bytes_leidos] = '\0'; // Asegura un fin de cadena
-        printf("Recibido: %s\n", buffer);
-    } //  else {
-    //     printf("No se recibieron datos\n");
-    // }
+        printf("Secuencia:");
+        scanf("%c", &menuSelect);
+
+        printf("Velocidad inicial:");
+        scanf("%c", &initialSpeed);
+
+        // Enviar datos
+	    strcat(mensaje, initialSpeed);
+	    strcat(mensaje, menuSelect);
+        write(fd, mensaje, sizeof(mensaje));
+    }
 
     // Restaurar configuración original del terminal
     tcsetattr(fd, TCSANOW, &ttyold);
-
-    
 
     close(fd);
     return EXIT_SUCCESS;
