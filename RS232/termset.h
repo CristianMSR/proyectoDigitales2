@@ -4,7 +4,7 @@
 #include <termios.h>
 #include <fcntl.h>
 
-struct termios ttyold, ttynew;
+extern struct termios ttyold, ttynew;
 
 /* termset function
  * Parameters:
