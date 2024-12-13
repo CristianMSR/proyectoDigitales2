@@ -30,18 +30,19 @@ int main() {
     char mensaje[100] = ""; //para transmision
 
     while(1){ //bucle de comunicación
-        while(1){
-            // Recibir datos de la raspi
+       /* while(1){
+            // Recibir menu de la raspi
             int bytes_leidos = read(fd, buffer, sizeof(buffer) - 1);
             if (bytes_leidos > 0) {
                 buffer[bytes_leidos] = '\0'; // Fin de cadena
                 printf("%s\n", buffer);
                 break;
             }
-        }
+        }*/
 
         printf("Secuencia:");
         scanf("%c", &menuSelect);
+        printf("%c\n",menuSelect);
 
         printf("Velocidad inicial:");
         scanf("%c", &initialSpeed);
