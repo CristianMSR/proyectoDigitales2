@@ -25,11 +25,11 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    char buffer[100];       // para recepcion
-    char mensaje[100] = ""; // para transmision
+    char buffer[100] = "";      // para recepcion
+    char mensaje[100] = "";     // para transmision
 
-    while (1) { // bucle de comunicación
-        /* while(1){
+    while (1) { // bucle de comunicacion
+        while(1){
              // Recibir menu de la raspi
              int bytes_leidos = read(fd, buffer, sizeof(buffer) - 1);
              if (bytes_leidos > 0) {
@@ -37,11 +37,10 @@ int main() {
                  printf("%s\n", buffer);
                  break;
              }
-         }*/
+         }
 
         printf("Secuencia:");
         scanf(" %c", &menuSelect);
-        printf("%c\n", menuSelect);
 
         printf("Velocidad inicial:");
         scanf(" %c", &initialSpeed);
@@ -58,4 +57,3 @@ int main() {
     close(fd);
     return EXIT_SUCCESS;
 }
-
