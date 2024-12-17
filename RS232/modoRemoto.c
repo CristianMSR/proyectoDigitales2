@@ -8,7 +8,7 @@
 #include <termios.h>
 
 #define BAUDRATE 9600
-#define SERIAL_PORT "/dev/serial0" // Creo que era serial0
+#define SERIAL_PORT "/dev/ttyS0" // Creo que era serial0
 
 // Estructura para almacenar la configuración del terminal
 static struct termios ttyold, ttynew;

@@ -24,7 +24,7 @@ int main (int argc, char *argv[]) {
 
   }while(valid != 1 || op < 1 || op >2);
 
-  if(op == 1){
+  if(op == 2){
     //modoLocal();
   }
   else {
