@@ -29,6 +29,7 @@ int main (int argc, char *argv[]) {
   }
   else {
     modoRemoto();
+    printf("Seleccionaste modo memoto\n");
   }
 
   return 0;
