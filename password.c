@@ -1,14 +1,21 @@
 #include <stdio.h>
-#include <termios.h>
-#include <unistd.h>  // Para usar read()
+#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <linux/i2c-dev.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <termios.h>
+#include "ads1115.h"
+
 
 #define FD_STDIN 0
 #define PASSWORD "12345"  // Contraseña predefinida
 #define MAX_TRIES 3       // Máximo número de intentos
 #define MAX_LEN 5         // 5 dígitos para la contraseña
 
-int main() {
+int password() {
     char lect[MAX_LEN + 1];  // Cadena para almacenar la contraseña ingresada (5 dígitos + terminador nulo)
     struct termios t_old, t_new;
     int tries = 0;
@@ -65,5 +72,5 @@ int main() {
 
     printf("Número máximo de intentos alcanzado. Abortando...\n");
      tcsetattr(FD_STDIN, TCSANOW, &t_old);
-    return 1;
+    return -1;
 }
