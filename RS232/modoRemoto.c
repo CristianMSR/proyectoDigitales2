@@ -38,31 +38,30 @@ int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_t
 
 void modoRemoto() {
     int fd;
-    int c = 0;
-    short int buffer = 0; // Para recibir menuSelect
+    short int c = 0;
+    short int buffer = 0;
 
-    // Abrir puerto serie
     fd = open(SERIAL_PORT, O_RDWR | O_NOCTTY | O_SYNC);
     if (fd < 0) {
         perror("Error abriendo el puerto serie");
         exit(EXIT_FAILURE);
     }
 
-    // Configurar el puerto serie
     if (termset(fd, BAUDRATE, &ttyold, &ttynew) < 0) {
         tcsetattr(fd, TCSANOW, &ttyold);
         close(fd);
         exit(EXIT_FAILURE);
     }
 
+    c = htons(c);
     write(fd, &c, sizeof(c));
 
-    // Esperar y recibir menuSelect
     read(fd, &buffer, sizeof(buffer));
+    buffer = ntohs(buffer);
 
     printf("Secuencia seleccionada:\n");
     printf("menuSelect: %d\n", buffer);
 
-    // Cerrar puerto serie
     close(fd);
 }
+
