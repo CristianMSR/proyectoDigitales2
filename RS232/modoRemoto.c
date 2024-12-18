@@ -7,7 +7,7 @@
 #include <fcntl.h>
 #include <termios.h>
 
-#define BAUDRATE 9600
+#define BAUDRATE B9600
 #define SERIAL_PORT "/dev/ttyS0" // Creo que era serial0
 
 // Estructura para almacenar la configuración del terminal
@@ -38,7 +38,7 @@ int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_t
 
 void modoRemoto() {
     int fd;
-    char menu = "x";
+    char* c = "x";
     char buffer[2]; // Para recibir menuSelect e initialSpeed
 
     // Abrir puerto serie
@@ -50,12 +50,13 @@ void modoRemoto() {
 
     // Configurar el puerto serie
     if (termset(fd, BAUDRATE, &ttyold, &ttynew) < 0) {
+        tcsetattr(fd, TCSANOW, &ttyold);
         close(fd);
         exit(EXIT_FAILURE);
     }
 
     // Enviar menu a la PC
-    write(fd, menu, strlen(menu));
+    write(fd, c, 1);
 
     // Esperar y recibir menuSelect e initialSpeed
     for (int i = 0; i < 2; i++) {
@@ -70,9 +71,6 @@ void modoRemoto() {
     printf("Datos recibidos:\n");
     printf("menuSelect: %c\n", buffer[1]);
     printf("initialSpeed: %c\n", buffer[0]);
-
-    // Restaurar configuración original del terminal
-    tcsetattr(fd, TCSANOW, &ttyold);
 
     // Cerrar puerto serie
     close(fd);
