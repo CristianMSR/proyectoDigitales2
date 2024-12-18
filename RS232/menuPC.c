@@ -25,24 +25,41 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    char buffer[100] = "";      // para recepcion
-    char mensaje[100] = "";     // para transmision
+    tcflush(fd, TCIOFLUSH);
+
+    char buffer[3] = "";      // para recepcion
+    char mensaje[2] = "";     // para transmision
+    
+    const char* title[] = {
+        "Auto fantástico",
+        "Choque",
+        "Apilada",
+        "Carrera",
+        "Ruleta Rusa",
+        "Saltito",
+        "Alternado",
+        "Contador Binario",
+        "Setear velocidad"
+    };
 
     while (1) { // bucle de comunicacion
-        while(1){
+          int bytes_leidos = 0;
              // Recibir menu de la raspi
-             int bytes_leidos = read(fd, buffer, sizeof(buffer) - 1);
+             printf("Esperando selección de modo...\n");
+             bytes_leidos = read(fd, buffer, sizeof(buffer) - 1);
              if (bytes_leidos > 0) {
                  buffer[bytes_leidos] = '\0'; // Fin de cadena
-                 printf("%s\n", buffer);
-                 break;
              }
-         }
+             
+        printf("Seleccione la opción deseada:\n");
+        for (int i = 0; i < 9; i++) {
+            printf("    %d. %s\n", i + 1, title[i]);
+        }
 
-        printf("Secuencia:");
+        printf("Secuencia: ");
         scanf(" %c", &menuSelect);
 
-        printf("Velocidad inicial:");
+        printf("Velocidad inicial: ");
         scanf(" %c", &initialSpeed);
 
         // Enviar datos
