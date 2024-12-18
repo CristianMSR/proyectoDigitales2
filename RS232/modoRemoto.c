@@ -38,8 +38,8 @@ int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_t
 
 void modoRemoto() {
     int fd;
-    char* c = "x";
-    char buffer[2]; // Para recibir menuSelect e initialSpeed
+    int c = 0;
+    short int buffer = 0; // Para recibir menuSelect
 
     // Abrir puerto serie
     fd = open(SERIAL_PORT, O_RDWR | O_NOCTTY | O_SYNC);
@@ -55,22 +55,13 @@ void modoRemoto() {
         exit(EXIT_FAILURE);
     }
 
-    // Enviar menu a la PC
-    write(fd, c, 1);
+    write(fd, &c, sizeof(c));
 
-    // Esperar y recibir menuSelect e initialSpeed
-    for (int i = 0; i < 2; i++) {
-        int bytes_leidos = read(fd, &buffer[i], 1);
-        if (bytes_leidos <= 0) {
-            perror("Error recibiendo datos");
-            close(fd);
-            exit(EXIT_FAILURE);
-        }
-    }
+    // Esperar y recibir menuSelect
+    read(fd, &buffer, sizeof(buffer));
 
-    printf("Datos recibidos:\n");
-    printf("menuSelect: %c\n", buffer[1]);
-    printf("initialSpeed: %c\n", buffer[0]);
+    printf("Secuencia seleccionada:\n");
+    printf("menuSelect: %d\n", buffer);
 
     // Cerrar puerto serie
     close(fd);
