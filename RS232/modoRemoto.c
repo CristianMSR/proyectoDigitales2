@@ -38,7 +38,7 @@ int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_t
 
 void modoRemoto() {
     int fd;
-    char menu[100] = "Selecciona una secuencia y velocidad inicial:\n";
+    char menu = "x";
     char buffer[2]; // Para recibir menuSelect e initialSpeed
 
     // Abrir puerto serie
@@ -68,8 +68,8 @@ void modoRemoto() {
     }
 
     printf("Datos recibidos:\n");
-    printf("menuSelect: %c\n", buffer[0]);
-    printf("initialSpeed: %c\n", buffer[1]);
+    printf("menuSelect: %c\n", buffer[1]);
+    printf("initialSpeed: %c\n", buffer[0]);
 
     // Restaurar configuración original del terminal
     tcsetattr(fd, TCSANOW, &ttyold);
