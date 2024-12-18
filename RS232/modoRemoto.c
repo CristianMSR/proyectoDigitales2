@@ -38,7 +38,6 @@ int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_t
 
 void modoRemoto() {
     int fd;
-    int c = 0;
     short int buffer = 0; // Para recibir menuSelect
 
     // Abrir puerto serie
@@ -55,14 +54,23 @@ void modoRemoto() {
         exit(EXIT_FAILURE);
     }
 
-    write(fd, &c, sizeof(c));
+  while(1){
+    tcflush(fd, TCIOFLUSH);
+    if(c==1){
+      write(fd, &c, sizeof(c));
+    }
 
+    printf("Mando esto: %d\n",c);
+
+   do{
+    buffer=0;
     // Esperar y recibir menuSelect
     read(fd, &buffer, sizeof(buffer));
-
-    printf("Secuencia seleccionada:\n");
-    printf("menuSelect: %d\n", buffer);
-
+    if(buffer!=0)
+      printf("Secuencia seleccionada: %d\n", buffer);
+   
+   }while(buffer!=10);
+  }
     // Cerrar puerto serie
     close(fd);
 }

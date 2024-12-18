@@ -27,7 +27,7 @@ int main (int argc, char *argv[]) {
   if(op == 2){
     //modoLocal();
   }
-else
+  else
     modoRemoto();
 
   return 0;
