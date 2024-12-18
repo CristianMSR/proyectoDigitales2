@@ -27,10 +27,8 @@ int main (int argc, char *argv[]) {
   if(op == 2){
     //modoLocal();
   }
-  else {
+else
     modoRemoto();
-    printf("Seleccionaste modo memoto\n");
-  }
 
   return 0;
 }
