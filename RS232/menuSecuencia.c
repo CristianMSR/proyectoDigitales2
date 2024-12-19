@@ -24,24 +24,25 @@ const char* title[] = {
         "Saltito",
         "Alternado",
         "Contador Binario",
-        "Setear velocidad"
+        "Setear velocidad",
+        "SALIR"
     };
 
 printf("Seleccione la opción deseada:\n");
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 10; i++) {
         printf("    %d. %s\n", i + 1, title[i]);
     }
 
   do{
-    printf("\nOpción (1-9): ");
+    printf("\nOpción (1-10): ");
     valid = scanf("%hd",&op);
 
     while (getchar() != '\n');
 
-    if(valid != 1 || op < 1 || op > 9)
-      printf("\n¡ERROR! Opción no válida.\nIngrese un número del 1 al 8.\n");
+    if(valid != 1 || op < 1 || op > 10)
+      printf("\n¡ERROR! Opción no válida.\nIngrese un número del 1 al 10.\n");
 
-  } while (valid != 1 || op < 1 || op > 9);
+  } while (valid != 1 || op < 1 || op > 10);
 
 return op;
 }
@@ -66,5 +67,6 @@ return op;
 //          break;
 //    case 9: setTime(time);
 //          break;
+//    case 10: break;
 //  }
 //}

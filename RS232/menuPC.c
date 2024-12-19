@@ -5,12 +5,12 @@
 #include <fcntl.h>
 #include "termset.h"
 
-#define BAUDRATE B9600
+#define BAUDRATE 9600
 
 extern int sequenceSelect ();
 
 int main() {
-    const char *raspi = "/dev/ttyUSB0"; // cambiar esto cuando lo implementemos en la raspi
+    const char *raspi = "/dev/ttyUSB0";
     int fd;
 
     fd = open(raspi, O_RDWR | O_NOCTTY | O_SYNC);
@@ -26,22 +26,22 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    tcflush(fd, TCIOFLUSH);
-
-    int buffer = 0;      // para recepcion
+    short int buffer = 0;   // para recepcion
     short int op = 0;
-
-    while (1) { // bucle de comunicacion
-           // Recibir menu de la raspi
-           printf("Esperando selección de modo...\n");
-           read(fd, &buffer, sizeof(buffer));
-
-        op = sequenceSelect();
-
-        // Enviar datos
-        write(fd, &op, sizeof(op));
+    
+    while(1){
+      printf("Esperando selección de modo...\n");
+      
+      read(fd, &buffer, sizeof(buffer));
+      if (buffer == 1){
+        printf("Ingreso a modo remoto\n");
+        do{
+          op = sequenceSelect();
+          write(fd, &op, sizeof(op));
+        }while(op != 10);
+      }
     }
-
+    
     close(fd);
     return EXIT_SUCCESS;
 }
