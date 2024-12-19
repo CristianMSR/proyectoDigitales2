@@ -1,18 +1,21 @@
 compile() {
     # Verifica si hay al menos un archivo
     if [ "$#" -lt 1 ]; then
-        echo "Uso: compile archivo1.c [archivo2.c ...] [-o nombre_ejecutable]"
+        echo "Uso: compile archivo1.c [archivo2.c ...] [-o nombre_ejecutable] [opciones adicionales]"
         return 1
     fi
 
-    # Detectar si se pasa un nombre de ejecutable con la opción -o
-    local output="output"  # Nombre predeterminado
+    # Variables predeterminadas
+    local output="output"
     local args=()
 
+    # Procesa opciones adicionales
     while (( "$#" )); do
         if [ "$1" == "-o" ]; then
             shift
             output="$1"
+        elif [ "$1" == "-pthread" ] || [ "$1" == "-I." ]; then
+            args+=("$1")
         else
             args+=("$1")
         fi
@@ -20,23 +23,25 @@ compile() {
     done
 
     # Verifica si hay archivos fuente
-    if [ "${#args[@]}" -lt 1 ]; then
-        echo "Error: No se especificaron archivos fuente."
+    if [ "${#args[@]}" -lt 2 ]; then
+        echo "Error: No se especificaron archivos fuente suficientes."
         return 1
     fi
 
     # Crear archivos objeto para cada entrada
     local object_files=()
-    for file in "${args[@]}"; do
+    for file in "${args[@]:0:${#args[@]}-1}"; do  # Todos menos la última entrada, que son las opciones adicionales
         gcc -Wall -c "$file" && object_files+=("${file%.*}.o")
     done
 
     # Verifica si se generaron correctamente los archivos objeto
-    if [ "${#object_files[@]}" -eq "${#args[@]}" ]; then
-        gcc -Wall "${object_files[@]}" -o "$output" && echo "Ejecutable creado: ./$output"
+    if [ "${#object_files[@]}" -eq "${#args[@]:0:${#args[@]}-1}" ]; then
+        gcc -Wall "${object_files[@]}" -o "$output" "${args[@]: -${#args[@]}}"
+        echo "Ejecutable creado: ./$output"
         rm "${object_files[@]}"  # Limpia los archivos objeto
     else
         echo "Error al compilar los archivos."
         return 1
     fi
 }
+
