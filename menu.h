@@ -19,6 +19,8 @@
 
 struct termios ttyold, ttynew;
 
+extern int verificarOP(int);
+
 // Configuración del puerto serie
 int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_tty) {
     if (tcgetattr(fd, old_tty) != 0) {
@@ -58,7 +60,7 @@ int menuModo() {
 
     while(getchar() != '\n');
 
-    if(valid != 1 || op < 1 || op > 3)
+    if(valid != 1 || verificarOP(op))
       printf("\n¡ERROR! Opción no válida.\nIngrese 1, 2 o 3.\n");
 
   }while(valid != 1 || op < 1 || op > 3);
