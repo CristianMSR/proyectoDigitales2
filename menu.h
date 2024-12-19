@@ -96,7 +96,6 @@ printf("Seleccione la opción deseada:\n");
     while (getchar() != '\n');
 
     if(valid != 1 || op < 48 || op > 57){
-      printf("Sopa: %d",op);
       printf("\n¡ERROR! Opción no válida.\nIngrese un número del 0 al 9.\n");
     }
   } while (valid != 1 || op < 48 || op > 57);
@@ -171,6 +170,8 @@ void modoRemoto() {
     start = 0;
 
     do{
+      system(CLEAR_COMMAND);
+      printf("Esperando comando de la PC...\n");
       read(fd, &buffer, sizeof(buffer)); // Recibe opción de PC
       system(CLEAR_COMMAND);
       switch(buffer){
@@ -183,8 +184,8 @@ void modoRemoto() {
 	break;	
 	case '9': setTime();   
 	break;
-	default: mensaje(buffer); 
-	makeThreads(buffer, 1);
+	default: printf("Ejecutando secuencia...\n");
+            makeThreads(buffer, 1);
 	break;
       }
     }while(buffer);
