@@ -1,9 +1,12 @@
 #include <pthread.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <termios.h>
 #include <unistd.h>
+#include <linux/i2c-dev.h>
+#include <sys/ioctl.h>
 #include "easypio.h"
 #include "sequence.h"
 #include "keyboard.h"

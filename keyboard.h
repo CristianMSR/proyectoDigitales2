@@ -1,14 +1,6 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include <ctype.h>
-#include <linux/i2c-dev.h>
-#include <sys/ioctl.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <termios.h>
-#include "ads1115.h"
-
 int password() {
 	const int FD_STDIN = 0;
 	const char *PASSWORD = "12345";
@@ -73,7 +65,6 @@ int password() {
     tcsetattr(FD_STDIN, TCSANOW, &t_old);
     return -1;
 }
-
 
 #endif
 
