@@ -140,7 +140,7 @@ void modoLocal(){
 			case '9': setTime();   
 			break;
 			default: mensaje(op); 
-					 makeThreads(op, 2, NULL);
+					 makeThreads(op, 2);
 			break;
 		}
 	}while(op);
@@ -185,7 +185,7 @@ void modoRemoto() {
 	case '9': setTime();   
 	break;
 	default: printf("Ejecutando secuencia...\n");
-           makeThreads(buffer, 1, &fd);
+           makeThreads(buffer, 1);
 	break;
       }
     }while(buffer);

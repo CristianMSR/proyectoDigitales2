@@ -27,14 +27,14 @@ void sequenceInit(){
 		pinMode(leds[i], OUTPUT);
 	}	
 }
-/*
+
 void digitalWriteAll(int value){
 	for(int i=0; i<8; i++){
 		int bitValue = (value >> i) & 0x01;
 		digitalWrite(leds[i],bitValue);
 	}
 }
-*/
+
 void digitalPrintAll(int value){
 	for(int i=0; i<8; i++){	
 		if ((value >> i) & 1) {
