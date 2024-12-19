@@ -26,23 +26,29 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    short int buffer = 0;   // para recepcion
-    short int op = 0;
+    char buffer = 0;   // para recepcion
+    char op = 0;
 
     while(1){
       tcflush(fd, TCIOFLUSH);
       printf("Esperando selección de modo...\n");
+
       read(fd, &buffer, sizeof(buffer));
-      printf("Recibí esto: %hd\n", buffer);
+      printf("Recibí esto: %d\n", buffer);
+
       if (buffer == 1){
         printf("Ingreso a modo remoto\n");
         do{
           op = sequenceSelect();
           write(fd, &op, sizeof(op));
-        }while(op != 10);
+        }while(op != 48);
       }
     }
 
+    if (tcsetattr(fd, TCSANOW, &ttyold) != 0)
+      printf("Pedantic error\n");
+
+    printf("Cerrando el puerto\n");
     close(fd);
     return EXIT_SUCCESS;
 }
