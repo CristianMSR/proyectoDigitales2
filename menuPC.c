@@ -10,11 +10,11 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "termset.h"
-#include "menu.h"
+#include "PC.h"
 
 #define BAUDRATE 9600
 
-extern int sequenceSelect ();
+extern char sequenceSelect ();
 
 int main() {
     const char *raspi = "/dev/ttyUSB0";
@@ -35,6 +35,7 @@ int main() {
 
     char buffer = 0;   // para recepcion
     char op = 0;
+    char key = 0;
 
     while(1){
       tcflush(fd, TCIOFLUSH);
@@ -48,6 +49,11 @@ int main() {
         do{
           op = sequenceSelect();
           write(fd, &op, sizeof(op));
+          system(CLEAR_COMMAND);
+          mensaje(op);
+          do{
+            key = checkKeysRemoto();
+          }while(isalpha(key));
         }while(op != 48);
       }
     }

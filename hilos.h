@@ -186,24 +186,24 @@ void *binary(void *arg) {
 
 void* checkKeysRemoto(void* arg) {
     while (running) {
-        int key = getKeyPress();  
-        if (key == '\033') { // Secuencia de escape
-            getKeyPress(); // Ignorar '['
-            key = getKeyPress();
-            pthread_mutex_lock(&lock);
-            if (key == 'A') { // Flecha hacia arriba
-                tiempo += 10;
-                printf("Tiempo incrementado: %d\n", tiempo);
-            } else if (key == 'B') { // Flecha hacia abajo
-                if (tiempo > 10) {
-                    tiempo -= 10;
-                    printf("Tiempo decrementado: %d\n", tiempo);
-                } else {
-                    printf("El tiempo ya está en el mínimo permitido: %d\n", tiempo);
-                }
-            }
-            pthread_mutex_unlock(&lock);
-        } else if (isalpha(key)) { // Si es una letra
+        char key;
+        read(fd, &key, sizeof(key));
+        
+        pthread_mutex_lock(&lock);
+        if (key == '1') { // Flecha hacia arriba
+            tiempo += 10;
+            printf("Tiempo incrementado: %d\n", tiempo);
+        } else if (key == '2') { // Flecha hacia abajo
+            if (tiempo > 10) {
+                tiempo -= 10;
+                printf("Tiempo decrementado: %d\n", tiempo);
+          } else 
+              printf("El tiempo ya está en el mínimo permitido: %d\n", tiempo);
+        }
+                
+        pthread_mutex_unlock(&lock);
+        
+        if (isalpha(key)) { // Si es una letra
             printf("Letra detectada ('%c'). Finalizando secuencia.\n", key);
             digitalWriteAll(0);
             running = 0; // Señalar finalización
