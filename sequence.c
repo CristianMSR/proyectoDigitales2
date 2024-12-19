@@ -1,6 +1,3 @@
-#ifndef sequence
-#define sequence
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -27,7 +24,6 @@ void sequenceInit(){
 		pinMode(leds[i], OUTPUT);
 	}	
 }
-
 void digitalWriteAll(int value){
 	for(int i=0; i<8; i++){
 		int bitValue = (value >> i) & 0x01;
@@ -44,8 +40,8 @@ void digitalPrintAll(int value){
     }
     printf("\n");
 }
-/*
 
+/*
 void fantasticar(int tiempo){	
 	for(int i=0; i<7; i++){
 		digitalWriteAll(0x80 >> i);
@@ -132,5 +128,3 @@ void binary(int tiempo){
 	}
 }*/
 
-
-#endif

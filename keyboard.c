@@ -9,13 +9,12 @@
 #include <termios.h>
 #include "ads1115.h"
 
-
-#define FD_STDIN 0
-#define PASSWORD "12345"  // Contraseña predefinida
-#define MAX_TRIES 3       // Máximo número de intentos
-#define MAX_LEN 5         // 5 dígitos para la contraseña
-
 int password() {
+	const int FD_STDIN = 0;
+	const char *PASSWORD = "12345";
+	const int MAX_TRIES = 3;
+	const int MAX_LEN = 5;
+	
     char lect[MAX_LEN + 1];  // Cadena para almacenar la contraseña ingresada (5 dígitos + terminador nulo)
     struct termios t_old, t_new;
     int tries = 0;
@@ -71,6 +70,7 @@ int password() {
     }
 
     printf("Número máximo de intentos alcanzado. Abortando...\n");
-     tcsetattr(FD_STDIN, TCSANOW, &t_old);
+    tcsetattr(FD_STDIN, TCSANOW, &t_old);
     return -1;
 }
+
