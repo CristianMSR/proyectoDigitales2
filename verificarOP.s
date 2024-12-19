@@ -2,6 +2,7 @@
 .arm
 .global verificarOP
 
+verificarOP:
 CMP     R0, #1        
     BLT     fuera_rango  
     CMP     R0, #3          
