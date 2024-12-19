@@ -53,10 +53,13 @@ void modoRemoto() {
     }
 
     write(fd, &start, sizeof(start)); //Inicio comunicación con PC
-    
+    tcflush(fd, TCIOFLUSH);
+    start = 0;
+
     do{
       read(fd, &buffer, sizeof(buffer)); //Recibe opción de PC
-      printf("Opción seleccionada: %d\n", buffer);
+      if(buffer != 0)
+        printf("Opción seleccionada: %d\n", buffer);
     }while(buffer != 10);
     
     close(fd);

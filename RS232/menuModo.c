@@ -20,5 +20,5 @@ int menuModo() {
 
   }while(valid != 1 || op < 1 || op >2);
 
-  return 0;
+  return op;
 }
