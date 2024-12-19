@@ -28,11 +28,12 @@ int main() {
 
     short int buffer = 0;   // para recepcion
     short int op = 0;
-    
+
     while(1){
+      tcflush(fd, TCIOFLUSH);
       printf("Esperando selección de modo...\n");
-      
       read(fd, &buffer, sizeof(buffer));
+      printf("Recibí esto: %hd\n", buffer);
       if (buffer == 1){
         printf("Ingreso a modo remoto\n");
         do{
@@ -41,7 +42,7 @@ int main() {
         }while(op != 10);
       }
     }
-    
+
     close(fd);
     return EXIT_SUCCESS;
 }
