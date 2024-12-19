@@ -191,13 +191,13 @@ void* checkKeysRemoto(void* arg) {
         read(fd, &key, sizeof(key));
         
         pthread_mutex_lock(&lock);
-        if (key == '1') { // Flecha hacia arriba
+        if (key == '2') { // Flecha hacia abajo
             tiempo += 10;
-            printf("Tiempo incrementado: %d\n", tiempo);
-        } else if (key == '2') { // Flecha hacia abajo
+            //printf("Tiempo incrementado: %d\n", tiempo);
+        } else if (key == '1') { // Flecha hacia arriba
             if (tiempo > 10) {
                 tiempo -= 10;
-                printf("Tiempo decrementado: %d\n", tiempo);
+                //printf("Tiempo decrementado: %d\n", tiempo);
           } else 
               printf("El tiempo ya está en el mínimo permitido: %d\n", tiempo);
         }
@@ -221,13 +221,13 @@ void* checkKeysLocal(void* arg) {
             getKeyPress(); // Ignorar '['
             key = getKeyPress();
             pthread_mutex_lock(&lock);
-            if (key == 'A') { // Flecha hacia arriba
+            if (key == 'B') { // Flecha hacia abajo
                 tiempo += 10;
-                printf("Tiempo incrementado: %d\n", tiempo);
-            } else if (key == 'B') { // Flecha hacia abajo
+                //printf("Tiempo incrementado: %d\n", tiempo);
+            } else if (key == 'A') { // Flecha hacia arriba
                 if (tiempo > 10) {
                     tiempo -= 10;
-                    printf("Tiempo decrementado: %d\n", tiempo);
+                    //printf("Tiempo decrementado: %d\n", tiempo);
                 } else {
                     printf("El tiempo ya está en el mínimo permitido: %d\n", tiempo);
                 }
