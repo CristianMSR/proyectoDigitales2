@@ -9,13 +9,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <termios.h>
 #include "termset.h"
 #include "PC.h"
 
 #define BAUDRATE 9600
-
-extern struct termios ttyold, ttynew;
 
 extern char sequenceSelect ();
 
