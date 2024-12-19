@@ -53,6 +53,7 @@ int main() {
           mensaje(op);
           do{
             key = checkKeysRemoto();
+            write(fd, &key, sizeof(key));
           }while(isalpha(key));
         }while(op != 48);
       }

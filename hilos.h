@@ -185,6 +185,7 @@ void *binary(void *arg) {
 }
 
 void* checkKeysRemoto(void* arg) {
+    int fd;
     while (running) {
         char key;
         read(fd, &key, sizeof(key));

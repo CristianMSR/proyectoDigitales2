@@ -12,6 +12,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <ctype.h>
 #include "termset.h"
 #include <termios.h>
 
@@ -77,9 +78,9 @@ void mensaje(char op){
 	printf("Presione cualquier letra para salir\n");
 }
 
-int getKeyPress() {
+char getKeyPress() {
     struct termios oldt, newt;
-    int ch;
+    char ch;
 
     // Configurar terminal para lectura sin bloqueo
     tcgetattr(STDIN_FILENO, &oldt);
@@ -95,7 +96,7 @@ int getKeyPress() {
 }
 
 char checkKeysRemoto() {
-        key = getKeyPress();  
+        char key = getKeyPress();  
         if (key == '\033') { // Secuencia de escape
             getKeyPress(); // Ignorar '['
             key = getKeyPress();
@@ -108,8 +109,6 @@ char checkKeysRemoto() {
         if (isalpha(key)) { // Si es una letra
             printf("Letra detectada ('%c'). Finalizando secuencia.\n", key);
         }
-        
-        write(fd, &key, sizeof(key));
         return key;
 }
 
