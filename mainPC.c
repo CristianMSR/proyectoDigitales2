@@ -9,8 +9,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "termset.h"
-#include "PC.h"
+#include "libraries/termset.h"
+#include "libraries/PC.h"
 
 #define BAUDRATE 9600
 

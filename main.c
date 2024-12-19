@@ -7,12 +7,12 @@
 #include <unistd.h>
 #include <linux/i2c-dev.h>
 #include <sys/ioctl.h>
-#include "easypio.h"
-#include "sequence.h"
-#include "keyboard.h"
-#include "ads1115.h"
-#include "hilos.h"
-#include "menu.h"
+#include "libraries/easypio.h"
+#include "libraries/sequence.h"
+#include "libraries/keyboard.h"
+#include "libraries/ads1115.h"
+#include "libraries/hilos.h"
+#include "libraries/menu.h"
 
 #ifdef _WIN32
 #define CLEAR_COMMAND "cls"

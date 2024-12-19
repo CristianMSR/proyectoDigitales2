@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "termset.h"
+#include "libraries/termset.h"
 
 struct termios ttyold, ttynew;
 
