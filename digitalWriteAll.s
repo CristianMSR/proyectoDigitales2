@@ -15,11 +15,7 @@ loop:
                 and     r3, r3, #0x01
                 ldr     r4, =leds          
                 ldr     r5, [r4, r2, lsl #2] 
-                stmfd SP! , {R0, R1, R3, R5}
-                mov r0, r5
-                mov r1, r3
                 bl      digitalWrite     
-                ldmfd SP! , {R0, R1, R3, R5}
                 add     r2, r2, #1
                 cmp     r2, #8
                 bne     loop
