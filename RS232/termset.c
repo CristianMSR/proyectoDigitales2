@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "termset.h"
 
+struct termios ttyold, ttynew;
+
 int termset(int fd, int baudrate, struct termios * ttyold, struct termios * ttynew)
 {
   switch(baudrate)
