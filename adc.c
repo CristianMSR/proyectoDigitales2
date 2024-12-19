@@ -68,6 +68,7 @@ void setInicialTime(int *tiempo){
 	int valoradc;
 	valoradc = ads1115_read_single_ended(file, 0);
 	*tiempo = valoradc/100*10;
+	if(*tiempo < 10) *tiempo = 10;
 	printf("La velocidad inicial es de %d milisegundos\n", *tiempo);
 	close(file);
 }
@@ -86,6 +87,7 @@ void setTime(int *tiempo){
 		char enter = getchar();
 		if(opcion == 'n'){
 			*tiempo = valoradc/100*10;
+			if(*tiempo < 10) *tiempo = 10;
 			printf("La velocidad fue seteada en %d milisegundos\n", *tiempo);
 			break;
 		}

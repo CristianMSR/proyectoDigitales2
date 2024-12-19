@@ -37,16 +37,19 @@ int getKeyPress() {
 
 void* fantasticar(void* arg) {
     while (running) {
-        pthread_mutex_lock(&lock);
-        int delay = tiempo; // Copia local del tiempo
-        pthread_mutex_unlock(&lock);
-
+        
         for (int i = 0; i < 7 && running; i++) {
             digitalWriteAll(0x80 >> i);
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
         for (int i = 0; i < 7 && running; i++) {
             digitalWriteAll(0x01 << i);
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
     }
@@ -55,16 +58,18 @@ void* fantasticar(void* arg) {
 
 void *choque(void *arg) {
     while (running) {
-        pthread_mutex_lock(&lock);
-        int delay = tiempo; // Copia local del tiempo
-        pthread_mutex_unlock(&lock);
-
         for (int i = 0; i < 4 && running; i++) {
             digitalWriteAll((0x80 >> i) | (0x1 << i));
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
         for (int i = 5; i < 8 && running; i++) {
             digitalWriteAll((0x80 >> i) | (0x1 << i));
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
     }
@@ -73,19 +78,25 @@ void *choque(void *arg) {
 
 void *apilada(void *arg) {
     while (running) {
-        pthread_mutex_lock(&lock);
-        int delay = tiempo; // Copia local del tiempo
-        pthread_mutex_unlock(&lock);
-
         for (int i = 0; i < 8 && running; i++) {
             for (int j = 0; j < (8 - i) && running; j++) {
                 digitalWriteAll((0x80 >> j) | ((1 << i) - 1));
+                pthread_mutex_lock(&lock);
+                int delay = tiempo; // Copia local del tiempo
+                pthread_mutex_unlock(&lock);
                 delayMillis(delay);
-            }
-            digitalWrite(leds[0 + i], 0);
-            delayMillis(delay);
-            digitalWrite(leds[0 + i], 1);
-            delayMillis(delay);
+                }
+                digitalWrite(leds[0 + i], 0);
+                pthread_mutex_lock(&lock);
+                int delay = tiempo; // Copia local del tiempo
+                pthread_mutex_unlock(&lock);
+                delayMillis(delay);
+                
+                digitalWrite(leds[0 + i], 1);
+                pthread_mutex_lock(&lock);
+                delay = tiempo; // Copia local del tiempo
+                pthread_mutex_unlock(&lock);
+                delayMillis(delay);
         }
     }
     pthread_exit(NULL);
@@ -93,12 +104,11 @@ void *apilada(void *arg) {
 
 void *theRace(void *arg) {
     while (running) {
-        pthread_mutex_lock(&lock);
-        int delay = tiempo; // Copia local del tiempo
-        pthread_mutex_unlock(&lock);
-
         for (int i = 0; i < 16 && running; i++) {
             digitalWriteAll(race[i]);
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
     }
@@ -107,14 +117,12 @@ void *theRace(void *arg) {
 
 void *rusky(void *arg) {
     while (running) {
-        pthread_mutex_lock(&lock);
-        int delay = tiempo; // Copia local del tiempo
-        pthread_mutex_unlock(&lock);
-
-
         srand(time(NULL));
         digitalWriteAll(0xFF); // Prender todos los LEDs
-        delayMillis(delay);
+        pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
+            delayMillis(delay);
         int control[8] = {1, 1, 1, 1, 1, 1, 1, 1};
         int contador = 0;
         while (contador < 8 && running) {
@@ -124,6 +132,9 @@ void *rusky(void *arg) {
                 digitalWrite(leds[random], 0);
                 contador++;
             }
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
     }
@@ -132,12 +143,11 @@ void *rusky(void *arg) {
 
 void *jumpy(void *arg) {
      while (running) {
-        pthread_mutex_lock(&lock);
-        int delay = tiempo; // Copia local del tiempo
-        pthread_mutex_unlock(&lock);
-
         for (int i = 0; i < 14 && running; i++) {
             digitalWriteAll(jump[i]);
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
     }
@@ -146,12 +156,11 @@ void *jumpy(void *arg) {
 
 void *alternate(void *arg) {
     while (running) {
-        pthread_mutex_lock(&lock);
-        int delay = tiempo; // Copia local del tiempo
-        pthread_mutex_unlock(&lock);
-
         for (int i = 0; i < 2 && running; i++) {
             digitalWriteAll(alt[i]);
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
     }
@@ -166,15 +175,18 @@ void *binary(void *arg) {
 
         for (int i = 0; i < 255 && running; i++) {
             digitalWriteAll(i);
+            pthread_mutex_lock(&lock);
+            int delay = tiempo; // Copia local del tiempo
+            pthread_mutex_unlock(&lock);
             delayMillis(delay);
         }
     }
     pthread_exit(NULL);
 }
 
-void* thread_checkKeys(void* arg) {
+void* checkKeysRemoto(void* arg) {
     while (running) {
-        int key = getKeyPress();
+        int key = getKeyPress();  
         if (key == '\033') { // Secuencia de escape
             getKeyPress(); // Ignorar '['
             key = getKeyPress();
@@ -192,7 +204,8 @@ void* thread_checkKeys(void* arg) {
             }
             pthread_mutex_unlock(&lock);
         } else if (isalpha(key)) { // Si es una letra
-            printf("Letra detectada ('%c'). Finalizando programa.\n", key);
+            printf("Letra detectada ('%c'). Finalizando secuencia.\n", key);
+            digitalWriteAll(0);
             running = 0; // Señalar finalización
         }
     }
@@ -200,32 +213,61 @@ void* thread_checkKeys(void* arg) {
 }
 
 
-void makeThreads(short secuencia){
+void* checkKeysLocal(void* arg) {
+    while (running) {
+        int key = getKeyPress();  
+        if (key == '\033') { // Secuencia de escape
+            getKeyPress(); // Ignorar '['
+            key = getKeyPress();
+            pthread_mutex_lock(&lock);
+            if (key == 'A') { // Flecha hacia arriba
+                tiempo += 10;
+                printf("Tiempo incrementado: %d\n", tiempo);
+            } else if (key == 'B') { // Flecha hacia abajo
+                if (tiempo > 10) {
+                    tiempo -= 10;
+                    printf("Tiempo decrementado: %d\n", tiempo);
+                } else {
+                    printf("El tiempo ya está en el mínimo permitido: %d\n", tiempo);
+                }
+            }
+            pthread_mutex_unlock(&lock);
+        } else if (isalpha(key)) { // Si es una letra
+            printf("Letra detectada ('%c'). Finalizando secuencia.\n", key);
+            digitalWriteAll(0);
+            running = 0; // Señalar finalización
+        }
+    }
+    pthread_exit(NULL);
+}
+
+void makeThreads(char secuencia, int modo){ //modo=1 remoto, modo=2 local 
 
     // Inicializar el mutex
     pthread_mutex_init(&lock, NULL);
 
     // Crear hilos
     switch(secuencia){
-        case 1: pthread_create(&thread1, NULL, fantasticar, NULL);
+        case '1': pthread_create(&thread1, NULL, fantasticar, NULL);
         break;
-        case 2: pthread_create(&thread1, NULL, choque, NULL);
+        case '2': pthread_create(&thread1, NULL, choque, NULL);
         break;
-        case 3: pthread_create(&thread1, NULL, apilada, NULL);
+        case '3': pthread_create(&thread1, NULL, apilada, NULL);
         break;
-        case 4: pthread_create(&thread1, NULL, theRace, NULL);
+        case '4': pthread_create(&thread1, NULL, theRace, NULL);
         break;
-        case 5: pthread_create(&thread1, NULL, rusky, NULL);
+        case '5': pthread_create(&thread1, NULL, rusky, NULL);
         break;
-        case 6: pthread_create(&thread1, NULL, jumpy, NULL);
+        case '6': pthread_create(&thread1, NULL, jumpy, NULL);
         break;
-        case 7: pthread_create(&thread1, NULL, alternate, NULL);
+        case '7': pthread_create(&thread1, NULL, alternate, NULL);
         break;
-        case 8: pthread_create(&thread1, NULL, binary, NULL);
+        case '8': pthread_create(&thread1, NULL, binary, NULL);
         break;
     }
     
-    pthread_create(&thread2, NULL, thread_checkKeys, NULL);
+    if(modo == 1) {pthread_create(&thread2, NULL, checkKeysRemoto, NULL);}
+    else {pthread_create(&thread2, NULL, checkKeysLocal, NULL);}
 
     // Esperar a que los hilos terminen
     pthread_join(thread1, NULL);

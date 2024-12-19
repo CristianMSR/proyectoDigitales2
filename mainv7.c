@@ -21,29 +21,20 @@ int main() {
 	if(password() == -1){return -1;}  
     //Lectura inicial del potenciómetro 
 	setInicialTime(&tiempo);
-    while(1){
     //Menú local/remoto
     
     //Menú secuencia
     
-    //if(secuencia == 9){setTime(&tiempo);}
+    //if(secuencia == '9'){setTime(&tiempo);}
     
-    makeThreads(1);
-    
-    makeThreads(2);
-    
-    makeThreads(3);
-    
-    makeThreads(4);
-    
-    makeThreads(5);
-    
-    makeThreads(6);
-    makeThreads(7);
-    
-    makeThreads(8);
-    }
-    
+    makeThreads('1', 2);
+    makeThreads('2', 2);
+    makeThreads('3', 2);
+    makeThreads('4', 2);
+    makeThreads('5', 2);
+    makeThreads('6', 2);
+    makeThreads('7', 2);
+    makeThreads('8', 2);
     
     printf("Programa finalizado.\n");
     return 0;
