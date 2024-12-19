@@ -3,39 +3,43 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <termios.h>
-#include <unistd.h> // Para usleep
+#include <unistd.h>
 #include "easypio.h"
 #include "sequence.h"
 #include "keyboard.h"
 #include "ads1115.h"
 #include "hilos.h"
+#include "menu.h"
 
+#ifdef _WIN32
+#define CLEAR_COMMAND "cls"
+#else 
+#define CLEAR_COMMAND "clear"
+#endif
 
 int tiempo = 10;
 // Función principal
 int main() {
     pioInit();
     sequenceInit();
-    
+    system(CLEAR_COMMAND);
     //Solicitud de contraseña
-	if(password() == -1){return -1;}  
+    if(password() == -1){return -1;}  
+    system(CLEAR_COMMAND);
     //Lectura inicial del potenciómetro 
 	setInicialTime(&tiempo);
-    //Menú local/remoto
-    
-    //Menú secuencia
-    
-    //if(secuencia == '9'){setTime(&tiempo);}
-    
-    makeThreads('1', 2);
-    makeThreads('2', 2);
-    makeThreads('3', 2);
-    makeThreads('4', 2);
-    makeThreads('5', 2);
-    makeThreads('6', 2);
-    makeThreads('7', 2);
-    makeThreads('8', 2);
-    
+    int modo;
+    do{
+	//Menú local/remoto
+	modo = menuModo();
+	if(modo == 1){
+	    //modoRemoto();
+	} 
+	if(modo == 2){
+	    modoLocal();
+	}	    
+    }while(modo != 3);
+       
     printf("Programa finalizado.\n");
     return 0;
 }

@@ -12,8 +12,8 @@
 // Prototipo de la función
 int ads1115_read_single_ended(int file, int channel);
 void openFile(int *file);
-void setInicialTime(int* tiempo);
-void setTime(int* tiempo);
+void setInicialTime();
+void setTime();
 
 
 #endif

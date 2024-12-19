@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include "ads1115.h"
 
+extern int tiempo;
+
 int ads1115_read_single_ended(int file, int channel) {
     if (channel < 0 || channel > 3) {
         printf("Canal fuera de rango (0-3)\n");
@@ -62,19 +64,19 @@ void openFile(int *file){
 	}
 }
 
-void setInicialTime(int *tiempo){
+void setInicialTime(){
 	int file;
 	openFile(&file);
 	int valoradc;
 	valoradc = ads1115_read_single_ended(file, 0);
-	*tiempo = valoradc/100*10;
-	if(*tiempo < 10) *tiempo = 10;
-	printf("La velocidad inicial es de %d milisegundos\n", *tiempo);
+	tiempo = valoradc/100*10;
+	if(tiempo < 10) tiempo = 10;
+	printf("La velocidad inicial es de %d milisegundos\n", tiempo);
 	close(file);
 }
 
 //Lo que hace es recibir la direccion de memoria de una variable, y se la carga con la "velocidad"
-void setTime(int *tiempo){
+void setTime(){
 	int file;
 	openFile(&file);
 	int tec=0;
@@ -86,9 +88,9 @@ void setTime(int *tiempo){
 		opcion = getchar();
 		char enter = getchar();
 		if(opcion == 'n'){
-			*tiempo = valoradc/100*10;
-			if(*tiempo < 10) *tiempo = 10;
-			printf("La velocidad fue seteada en %d milisegundos\n", *tiempo);
+			tiempo = valoradc/100*10;
+			if(tiempo < 10) tiempo = 10;
+			printf("La velocidad fue seteada en %d milisegundos\n", tiempo);
 			break;
 		}
 	}
