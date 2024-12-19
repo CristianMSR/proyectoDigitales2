@@ -140,7 +140,7 @@ void modoLocal(){
 			case '9': setTime();   
 			break;
 			default: mensaje(op); 
-					 makeThreads(op, 2, fd);
+					 makeThreads(op, 2, 0);
 			break;
 		}
 	}while(op);
@@ -167,7 +167,6 @@ void modoRemoto() {
 
     tcflush(fd, TCIOFLUSH);
     write(fd, &start, sizeof(start)); //Inicio comunicación con PC
-    start = 0;
 
     do{
       system(CLEAR_COMMAND);
@@ -182,7 +181,8 @@ void modoRemoto() {
                   close(fd);
 	          return;
 	break;	
-	case '9': setTime();   
+	case '9': setTime();
+            write(fd,&start,sizeof(start));
 	break;
 	default: printf("Ejecutando secuencia...\n");
            makeThreads(buffer, 1, fd);
