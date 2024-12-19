@@ -14,7 +14,7 @@ int ads1115_read_single_ended(int file, int channel) {
 
     int config = 0x8000;  // Bit 15: modo de disparo único
     config |= (0x4000 | (channel << 12));  // Bits 14-12: MUX para seleccionar el canal
-    config |= 0x0200;  // Bits 11-9: Configurar el PGA (rango +/- 2.048V)
+    config |= 0x0200;  // Bits 11-9: Configurar el PGA (rango +/- 4.096V)
     config |= 0x0100;  // Bit 8: Modo de disparo único
     config |= 0x0080;  // Bits 7-5: Data rate (128 muestras por segundo)
     config |= 0x0003;  // Bits 1-0: Configuración de comparador (modo de umbral desactivado)
