@@ -22,8 +22,6 @@ const int race[16] = {128,128,64,64,32,32,16,16,136,72,36,20,10,6,3,1};
 const int jump[14] = {128,64,128,32,128,16,128,8,128,4,128,2,128,1};
 const int alt[16] = {0xAA, 0x55};
 
-extern void digitalWriteAll(int);
-
 void sequenceInit(){
 	for(int i=0; i<8;i++){
 		pinMode(leds[i], OUTPUT);

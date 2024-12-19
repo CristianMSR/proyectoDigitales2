@@ -12,6 +12,8 @@
 #include "keyboard.h"
 #include "ads1115.h"
 
+extern void digitalWriteAll(int);
+
 pthread_t thread1, thread2;
 // Variables compartidas
 int running = 1; // Bandera para terminar el programa
