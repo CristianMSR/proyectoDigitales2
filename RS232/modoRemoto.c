@@ -35,8 +35,8 @@ int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_t
 
 void modoRemoto() {
     int fd;
-    short int buffer = 0; // Para recibir menuSelect
-    short int start = 1;
+    char buffer = 0; // Para recibir menuSelect
+    char start = 1;
     
     // Abrir puerto serie
     fd = open(SERIAL_PORT, O_RDWR | O_NOCTTY | O_SYNC);
@@ -52,15 +52,18 @@ void modoRemoto() {
         exit(EXIT_FAILURE);
     }
 
-    write(fd, &start, sizeof(start)); //Inicio comunicación con PC
     tcflush(fd, TCIOFLUSH);
+    write(fd, &start, sizeof(start)); //Inicio comunicación con PC
     start = 0;
 
     do{
       read(fd, &buffer, sizeof(buffer)); //Recibe opción de PC
-      if(buffer != 0)
-        printf("Opción seleccionada: %d\n", buffer);
-    }while(buffer != 10);
-    
+      printf("Opción seleccionada: %c\n", buffer);
+    }while(buffer != 48);
+
+    if(tcsetattr(fd, TCSANOW, &ttyold) != 0)
+      printf("Pedantinc error\n");
+
+    printf("Cerrando puerto\n");
     close(fd);
 }
