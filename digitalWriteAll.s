@@ -7,6 +7,7 @@ leds: .word     26, 21, 20, 16, 12, 25, 24, 23
 .extern digitalWrite
 
 digitalWriteAll:
+push {lr}
 mov r6, r0
 mov r2, #0
 
@@ -22,5 +23,6 @@ add r2, r2, #1
 cmp r2, #8
 bne loop
 
+pop {lr}
 BX LR
 
