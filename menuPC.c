@@ -50,11 +50,18 @@ int main() {
           op = sequenceSelect();
           write(fd, &op, sizeof(op));
           system(CLEAR_COMMAND);
-          mensaje(op);
-          do{
-            key = checkKeysRemoto();
-            write(fd, &key, sizeof(key));
-          }while(isalpha(key));
+          switch(op){
+		case '0': 
+		break;	
+		case '9': read(fd,&buffer,sizeof(buffer));
+		break;
+		default: mensaje(op); 
+			  do{
+                              key = checkKeysRemoto();
+                              write(fd, &key, sizeof(key));
+                          }while(!isalpha(key));
+		break;
+	  }
         }while(op != 48);
       }
     }
