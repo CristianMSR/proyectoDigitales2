@@ -46,7 +46,7 @@ int termset(int fd, int baudrate, struct termios *old_tty, struct termios *new_t
 
 int menuModo() {
 	
-  int op, valid;
+  int op, valid, ext;
 
     printf("Seleccione el modo de trabajo:\n");
     printf("    1. Modo remoto\n");
@@ -59,8 +59,10 @@ int menuModo() {
     valid = scanf("%d",&op);
 
     while(getchar() != '\n');
+    
+    ext = verificarOP(op);
 
-    if(valid != 1 || verificarOP(op))
+    if(valid != 1 || ext)
       printf("\n¡ERROR! Opción no válida.\nIngrese 1, 2 o 3.\n");
 
   }while(valid != 1 || op < 1 || op > 3);

@@ -17,6 +17,8 @@
 #define CLEAR_COMMAND "clear"
 #endif
 
+extern int verificarOP(int);
+
 int tiempo = 10;
 // Función principal
 int main() {
