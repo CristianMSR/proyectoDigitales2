@@ -12,7 +12,7 @@
 #include "keyboard.h"
 #include "ads1115.h"
 
-extern void digitalWriteAll(int);
+//extern void digitalWriteAll(int);
 
 pthread_t thread1, thread2;
 // Variables compartidas
@@ -188,8 +188,9 @@ void *binary(void *arg) {
 
 void* checkKeysRemoto(void* arg) {
     while (running) {
+        int fd = *(int *)arg;
         char key;
-        //read(fd, &key, sizeof(key));
+        read(fd, &key, sizeof(key));
         
         pthread_mutex_lock(&lock);
         if (key == '1') { // Flecha hacia arriba
@@ -243,7 +244,7 @@ void* checkKeysLocal(void* arg) {
     pthread_exit(NULL);
 }
 
-void makeThreads(char secuencia, int modo){ //modo=1 remoto, modo=2 local 
+void makeThreads(char secuencia, int modo, int fd){ //modo=1 remoto, modo=2 local 
     // Inicializar el mutex
     pthread_mutex_init(&lock, NULL);
 
@@ -267,7 +268,7 @@ void makeThreads(char secuencia, int modo){ //modo=1 remoto, modo=2 local
         break;
     }
     
-    if(modo == 1) {pthread_create(&thread2, NULL, checkKeysRemoto, NULL);}
+    if(modo == 1) {pthread_create(&thread2, NULL, checkKeysRemoto, &fd);}
     else {pthread_create(&thread2, NULL, checkKeysLocal, NULL);}
 
     // Esperar a que los hilos terminen
