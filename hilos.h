@@ -185,7 +185,7 @@ void *binary(void *arg) {
 }
 
 void* checkKeysRemoto(void* arg) {
-    int fd;
+    int fd = *(int *)arg;
     while (running) {
         char key;
         read(fd, &key, sizeof(key));
@@ -242,7 +242,7 @@ void* checkKeysLocal(void* arg) {
     pthread_exit(NULL);
 }
 
-void makeThreads(char secuencia, int modo){ //modo=1 remoto, modo=2 local 
+void makeThreads(char secuencia, int modo, void* fd){ //modo=1 remoto, modo=2 local 
 
     // Inicializar el mutex
     pthread_mutex_init(&lock, NULL);
@@ -267,7 +267,7 @@ void makeThreads(char secuencia, int modo){ //modo=1 remoto, modo=2 local
         break;
     }
     
-    if(modo == 1) {pthread_create(&thread2, NULL, checkKeysRemoto, NULL);}
+    if(modo == 1) {pthread_create(&thread2, NULL, checkKeysRemoto, &fd);}
     else {pthread_create(&thread2, NULL, checkKeysLocal, NULL);}
 
     // Esperar a que los hilos terminen
