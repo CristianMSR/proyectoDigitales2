@@ -12,8 +12,7 @@
 #include "keyboard.h"
 #include "ads1115.h"
 
-//extern void digitalWriteAll(int);
-extern int fd;
+extern void digitalWriteAll(int);
 
 pthread_t thread1, thread2;
 // Variables compartidas
@@ -190,7 +189,7 @@ void *binary(void *arg) {
 void* checkKeysRemoto(void* arg) {
     while (running) {
         char key;
-        read(fd, &key, sizeof(key));
+        //read(fd, &key, sizeof(key));
         
         pthread_mutex_lock(&lock);
         if (key == '1') { // Flecha hacia arriba
