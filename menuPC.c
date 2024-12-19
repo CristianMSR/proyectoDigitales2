@@ -1,9 +1,16 @@
+#ifdef _WIN32
+#define CLEAR_COMMAND "cls"
+#else 
+#define CLEAR_COMMAND "clear"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "termset.h"
+#include "menu.h"
 
 #define BAUDRATE 9600
 
@@ -34,9 +41,9 @@ int main() {
       printf("Esperando selección de modo...\n");
 
       read(fd, &buffer, sizeof(buffer));
-      printf("Recibí esto: %d\n", buffer);
 
       if (buffer == 1){
+        system(CLEAR_COMMAND);
         printf("Ingreso a modo remoto\n");
         do{
           op = sequenceSelect();

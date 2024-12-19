@@ -33,7 +33,7 @@ int main() {
 	//Menú local/remoto
 	modo = menuModo();
 	if(modo == 1){
-	    //modoRemoto();
+	    modoRemoto();
 	} 
 	if(modo == 2){
 	    modoLocal();
